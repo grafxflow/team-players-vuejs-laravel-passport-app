@@ -29,7 +29,7 @@ class TeamController extends Controller
             'name' => 'required|string'
         ], [],
         [
-            'fname' => 'Name'
+            'name' => 'Name'
         ]);
 
         $team = new Team();
@@ -43,11 +43,5 @@ class TeamController extends Controller
     {
         $team = Team::find($id);
         $team->players->sortBy('last_name');
-    }
-
-    public function edit($id)
-    {
-        $team = Team::find($id);
-        return response()->json($team);
     }
 }
