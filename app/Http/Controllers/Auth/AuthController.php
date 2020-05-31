@@ -14,18 +14,21 @@ class AuthController extends Controller
     public $successStatus = 200;
 
     public function login(Request $request) {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+
+        $status = 401;
+        $response = ['error' => 'Unauthorised'];
+
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $status = 200;
             $user = Auth::user();
-            $success['user'] = $user->name;
-            $success['token'] = $user->createToken('MyApp')->accessToken;
-            return response()
-            ->json(
-                ['success' => $success],
-                $this->successStatus
-            );
-        } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            $response = [
+                'user' => $user->name,
+                'token' => $user->createToken('RockyForoutanApp')->accessToken
+            ];
         };
+
+        return response()->json($response, $status);
+
     }
 
     public function logout() {
