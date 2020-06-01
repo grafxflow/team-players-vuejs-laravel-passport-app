@@ -7,6 +7,9 @@
             </div>
         </div>
         <div class="my-3 p-3 bg-white rounded box-shadow">
+            <div v-if="error" class="alert alert-danger mt-3 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                {{ error }}
+            </div>
             <form @submit.prevent="login">
                 <div class="form-group">
                     <div class="col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
@@ -43,10 +46,12 @@
 
 <script>
     export default {
+        name: 'Login',
         data(){
             return {
                 email : '',
-                password : ''
+                password : '',
+                error: ''
             }
         },
         methods: {
@@ -55,9 +60,10 @@
                 let password = this.password;
                 this.$store.dispatch('login', { email, password })
                 .then(response => {
-                    this.$router.push('/');
+                    this.$router.push({ name: 'teams' });
                 }).catch(error => {
-                    console.log(error);
+                    console.log(error.response.data.error);
+                    this.error = error.response.data.error;
                 });
             }
         }
