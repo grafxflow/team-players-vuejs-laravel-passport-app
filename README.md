@@ -33,4 +33,4 @@ Be sure to include the following elements:
 
 ### Versions
 
-1.1 Intial setup.
+1.1 Initial setup.
