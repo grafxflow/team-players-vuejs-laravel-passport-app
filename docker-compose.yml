@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+  php:
+    domainname: team-players-app.local
+    build: '.docker/php/'
+    volumes:
+      - ./:/var/www/html/
+    networks:
+      - team-players-app-network
+  apache:
+    build: '.docker/apache/'
+    depends_on:
+      - php
+      - mysql
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html/
+    networks:
+      - team-players-app-network
+  mysql:
+    image: mysql/mysql-server:5.7
+    container_name: mysql-team-players-app
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: teamplayersapp
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - team-players-app-network
+networks:
+  team-players-app-network:
+    driver: bridge
+volumes:
+  mysql-data:
+    driver: local

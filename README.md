@@ -33,4 +33,5 @@ Be sure to include the following elements:
 
 ### Versions
 
-1.1 Initial setup.
+* 1.1 Initial setup.
+* 1.1.1 Added Docker Containers (Apache, PHP 7.4, Mysql 5.7)
